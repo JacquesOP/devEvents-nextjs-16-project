@@ -1,8 +1,10 @@
 import mongoose, { Connection } from "mongoose";
 
 /**
- * Retrieves and validates the MongoDB connection URI from environment variables.
- * Throws an error if not defined to fail fast during startup.
+ * Get the MongoDB connection URI from environment variables.
+ *
+ * @returns The MongoDB connection URI from `process.env.MONGODB_URI`.
+ * @throws If `MONGODB_URI` is not defined in the environment.
  */
 function getMongoUri(): string {
   const uri = process.env.MONGODB_URI;
@@ -49,14 +51,9 @@ if (!globalThis.mongoose) {
 }
 
 /**
- * Establishes a connection to MongoDB using Mongoose.
+ * Provides a cached Mongoose Connection, establishing a new connection only if one is not already active.
  *
- * Features:
- * - Returns cached connection if already established
- * - Reuses pending connection promise to prevent duplicate connections
- * - Uses buffered commands for better performance
- *
- * @returns Promise resolving to the Mongoose connection
+ * @returns The active Mongoose `Connection`
  */
 async function connectToDatabase(): Promise<Connection> {
   // Return existing connection if available

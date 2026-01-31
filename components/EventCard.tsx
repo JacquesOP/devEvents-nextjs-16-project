@@ -8,7 +8,7 @@ import posthog from 'posthog-js';
 interface Props {
    title: string;
    image: string;
-   slug: string;
+   slug?: string | null;
    location: string;
    date: string;
    time: string;
@@ -24,9 +24,13 @@ export default function EventCard({ title, image, slug, location, date, time }: 
     });
   };
 
-  return (
-    <Link href={`/events/${slug}`} id='event-card' onClick={handleClick}>
-      <Image src={image} alt={title} width={410} height={300} className='poster' />
+  const imageUrl = image.startsWith('http')
+    ? image
+    : `${process.env.NEXT_PUBLIC_BASE_URL}/${image}`;
+
+  const cardContent = (
+    <>
+      <Image src={imageUrl} alt={title} width={410} height={300} className='poster' />
 
       <div className='flex flex-row gap-2'>
          <Image src="/icons/pin.svg" alt="location" width={14} height={14} />
@@ -48,6 +52,20 @@ export default function EventCard({ title, image, slug, location, date, time }: 
             <p>{time}</p>
          </div>
       </div>
-   </Link>
-  )
+    </>
+  );
+
+  if (slug != null && slug !== '') {
+    return (
+      <Link href={`/events/${slug}`} id='event-card' onClick={handleClick}>
+        {cardContent}
+      </Link>
+    );
+  }
+
+  return (
+    <div id='event-card'>
+      {cardContent}
+    </div>
+  );
 }

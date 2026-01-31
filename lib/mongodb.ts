@@ -58,7 +58,7 @@ if (!globalThis.mongoose) {
  *
  * @returns Promise resolving to the Mongoose connection
  */
-async function connectToDatabase(): Promise<Connection> {
+async function connectDB(): Promise<Connection> {
   // Return existing connection if available
   if (cached.conn) {
     return cached.conn;
@@ -89,4 +89,4 @@ async function connectToDatabase(): Promise<Connection> {
   return cached.conn;
 }
 
-export default connectToDatabase;
+export default connectDB;

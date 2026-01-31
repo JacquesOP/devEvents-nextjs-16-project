@@ -10,6 +10,15 @@ const nextConfig: NextConfig = {
 
   cacheComponents: true,
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'jpo-personal-projects.b-cdn.net'
+      }
+    ]
+  },
+
   // PostHog reverse proxy configuration
   async rewrites() {
     return [

@@ -49,14 +49,11 @@ if (!globalThis.mongoose) {
 }
 
 /**
- * Establishes a connection to MongoDB using Mongoose.
+ * Establishes and returns a cached Mongoose connection to MongoDB.
  *
- * Features:
- * - Returns cached connection if already established
- * - Reuses pending connection promise to prevent duplicate connections
- * - Uses buffered commands for better performance
+ * Reuses an existing connection or an in-progress connection promise to avoid duplicate connections; if a connection attempt fails the cached promise is cleared so subsequent calls can retry.
  *
- * @returns Promise resolving to the Mongoose connection
+ * @returns The active Mongoose Connection
  */
 async function connectDB(): Promise<Connection> {
   // Return existing connection if available

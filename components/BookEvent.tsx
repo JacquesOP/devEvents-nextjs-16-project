@@ -2,6 +2,14 @@
 
 import React, { useState } from 'react'
 
+/**
+ * Renders an email signup form and, after submission, displays a confirmation message.
+ *
+ * Shows a controlled email input and a submit button. After the form is submitted, the component
+ * replaces the form with the message "Thank you for signing up!" following a short delay.
+ *
+ * @returns The component's rendered JSX: either the signup form or the confirmation message.
+ */
 export default function BookEvent() {
 
    const [email, setEmail] = useState('');

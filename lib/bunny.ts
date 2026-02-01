@@ -1,3 +1,13 @@
+/**
+ * Uploads a binary buffer to Bunny storage and returns its CDN URL.
+ *
+ * @param file - Buffer containing the file data to upload
+ * @param fileName - Name to store the file as in Bunny storage
+ * @param folder - Optional folder path within the storage; when empty, the file is stored at the root
+ * @returns The CDN URL for the uploaded file (concatenation of the configured CDN base and the storage path)
+ * @throws Error if required environment variables are missing
+ * @throws Error if the HTTP upload request fails (message includes the response status)
+ */
 export async function uploadToBunnyStorage(
    file: Buffer,
    fileName: string,

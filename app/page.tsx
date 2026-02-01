@@ -2,6 +2,13 @@ import { Suspense } from 'react'
 import ExploreBtn from '@/components/ExploreBtn'
 import EventsList from '@/components/EventsList'
 
+/**
+ * Root page component that renders the homepage hero section and a featured events area.
+ *
+ * Renders a centered heading and subheading, an explore CTA, and a "Featured Events" section that loads the events list inside a Suspense boundary.
+ *
+ * @returns The page's JSX element containing the homepage layout
+ */
 export default function Page() {
    return (
       <section>
@@ -24,4 +31,3 @@ export default function Page() {
       </section>
    )
 }
-

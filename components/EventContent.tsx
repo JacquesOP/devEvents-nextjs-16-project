@@ -48,6 +48,12 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 )
 
 
+/**
+ * Fetches event data for the given event slug from the configured API.
+ *
+ * @param slug - The event's slug used to identify the resource
+ * @returns The parsed event object when the HTTP response is successful, `null` otherwise
+ */
 async function getEvent(slug: string) {
    const request = await fetch(`${BASE_URL}/api/events/${slug}`);
    if (!request.ok) {
@@ -58,6 +64,15 @@ async function getEvent(slug: string) {
 
 
 
+/**
+ * Render the event detail page for the given route slug.
+ *
+ * Fetches event data, renders event content (banner, overview, details, agenda, organizer, tags),
+ * booking UI, and similar events. If the event or its description is missing, the function triggers a 404 response.
+ *
+ * @param params - An object whose `slug` promise resolves to route parameters containing the event `slug`
+ * @returns A React element representing the full event detail page (or a 404 response when data is missing)
+ */
 export async function EventContent({ params }: { params: Promise<{ slug: string }> }) {
    cacheLife('hours');
 

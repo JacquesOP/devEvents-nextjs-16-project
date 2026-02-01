@@ -4,7 +4,17 @@ import { uploadToBunnyStorage } from '@/lib/bunny'
 import Event from "@/database/event.model";
 
 
-// POST Event and UPLOAD image
+/**
+ * Handle POST requests to create a new Event with an uploaded image and persist it to the database.
+ *
+ * Expects multipart form data containing an `image` File, `tags` and `agenda` as JSON strings, and any of the permitted event fields: `title`, `description`, `overview`, `venue`, `location`, `date`, `time`, `mode`, `audience`, `organizer`. Validates image MIME type (image/jpeg, image/png, image/webp), uploads the image to Bunny storage, constructs a sanitized event payload, creates the Event document, and returns the created event.
+ *
+ * @param req - Incoming POST request with multipart/form-data containing the image and event fields described above.
+ * @returns A JSON HTTP response:
+ * - On success (201): `{ message: 'Event created successfully', event: createdEvent }`
+ * - On client error (400): `{ message: 'Image file is required' }` or `{ message: 'Invalid file type' }`
+ * - On server error (500): `{ message: 'Event Creation failed', error: <error message> }`
+ */
 export async function POST(req: NextRequest) {
 
    try {
@@ -83,7 +93,11 @@ export async function POST(req: NextRequest) {
 }
 
 
-// GET Event from DB
+/**
+ * Handle GET requests by fetching all Event records and returning them sorted newest first.
+ *
+ * @returns A JSON response with `message` and `events` (array of Event objects) on success; on failure a JSON response with `message` and `error` (error message).
+ */
 export async function GET() {
 
    try {
@@ -98,4 +112,3 @@ export async function GET() {
       return NextResponse.json({ message: 'Event fetching failed', error: e instanceof Error ? e.message : 'Unknown' }, { status: 500 })
    }
 }
-

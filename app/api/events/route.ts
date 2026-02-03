@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { uploadToBunnyStorage } from '@/lib/bunny'
 import Event from "@/database/event.model";
 
+// Configure caching for GET requests
+export const revalidate = 1800; // Revalidate every 30 minutes
+export const dynamic = 'force-dynamic'; // POST needs to be dynamic
+export const fetchCache = 'default-cache';
+
 
 // POST Event and UPLOAD image
 export async function POST(req: NextRequest) {
@@ -13,8 +18,8 @@ export async function POST(req: NextRequest) {
       const formData = await req.formData();
       const file = formData.get('image') as File;
 
-      if(!file) {
-         return NextResponse.json({ message: 'Image file is required'}, { status: 400 })
+      if (!file) {
+         return NextResponse.json({ message: 'Image file is required' }, { status: 400 })
       }
 
       const tags = JSON.parse(formData.get('tags') as string);
@@ -70,9 +75,9 @@ export async function POST(req: NextRequest) {
 
 
 
-      return NextResponse.json({ 
-         message: 'Event created successfully', 
-         event: createdEvent 
+      return NextResponse.json({
+         message: 'Event created successfully',
+         event: createdEvent
       }, { status: 201 });
 
 
@@ -91,7 +96,15 @@ export async function GET() {
 
       const events = await Event.find().sort({ createdAt: -1 }).lean();
 
-      return NextResponse.json({ message: 'Events fetched successfully', events }, { status: 200 })
+      return NextResponse.json(
+         { message: 'Events fetched successfully', events },
+         {
+            status: 200,
+            headers: {
+               'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600'
+            }
+         }
+      )
 
    } catch (e) {
 

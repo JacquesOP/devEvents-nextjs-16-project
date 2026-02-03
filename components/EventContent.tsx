@@ -31,7 +31,7 @@ const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => (
             ))
          }
       </ul>
-      
+
    </div>
 )
 
@@ -49,7 +49,12 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 
 
 async function getEvent(slug: string) {
-   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
+   const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
+      next: {
+         revalidate: 3600, // Cache for 1 hour
+         tags: [`event-${slug}`]
+      }
+   });
    if (!request.ok) {
       return null;
    }
@@ -64,12 +69,12 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
    const { slug } = await params;
 
    const data = await getEvent(slug);
-   
+
    if (!data?.event) {
       return notFound();
    }
-   
-   const { event: { _id, description, image, overview, date, time, location, mode, agenda, audience, tags, organizer }} = data;
+
+   const { event: { _id, description, image, overview, date, time, location, mode, agenda, audience, tags, organizer } } = data;
 
    if (!description) {
       return notFound();
@@ -121,7 +126,7 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
 
 
             {/* Right Side - Booking Form */}
-             <aside className='booking'>
+            <aside className='booking'>
                <div className="signup-card">
                   <h2>Book Your Spot</h2>
                   {
@@ -129,7 +134,7 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
                         <p className='text-sm'>
                            Join {bookings} people who have already booked their spot!
                         </p>
-                     ): (
+                     ) : (
                         <p className='text-sm'>
                            Be the first to book your spot!
                         </p>
@@ -138,7 +143,7 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
 
                   <BookEvent eventId={_id} slug={slug} />
                </div>
-             </aside>
+            </aside>
 
          </div>
 

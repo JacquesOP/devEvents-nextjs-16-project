@@ -2,6 +2,11 @@ import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Event from "@/database/event.model";
 
+// Configure route segment caching
+export const revalidate = 3600; // Revalidate every 1 hour (ISR)
+export const dynamic = 'force-static'; // Enable static generation where possible
+export const fetchCache = 'default-cache';
+
 // Route params type for Next.js 16 dynamic routes
 type RouteParams = {
   params: Promise<{ slug: string }>;
@@ -37,7 +42,12 @@ export async function GET(req: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(
       { message: "Event fetched successfully", event },
-      { status: 200 }
+      {
+        status: 200,
+        headers: {
+          'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+        }
+      }
     );
   } catch (e) {
     console.error("Error fetching event by slug:", e);

@@ -49,12 +49,7 @@ const EventTags = ({ tags }: { tags: string[] }) => (
 
 
 async function getEvent(slug: string) {
-   const request = await fetch(`${BASE_URL}/api/events/${slug}`, {
-      next: {
-         revalidate: 3600, // Cache for 1 hour
-         tags: [`event-${slug}`]
-      }
-   });
+   const request = await fetch(`${BASE_URL}/api/events/${slug}`);
    if (!request.ok) {
       return null;
    }

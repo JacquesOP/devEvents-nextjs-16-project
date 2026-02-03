@@ -2,9 +2,6 @@ import connectDB from "@/lib/mongodb";
 import { NextRequest, NextResponse } from "next/server";
 import Event from "@/database/event.model";
 
-// Configure route segment caching
-export const revalidate = 3600; // Revalidate every 1 hour (ISR)
-export const fetchCache = 'default-cache';
 
 // Route params type for Next.js 16 dynamic routes
 type RouteParams = {

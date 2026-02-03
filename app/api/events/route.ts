@@ -3,9 +3,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { uploadToBunnyStorage } from '@/lib/bunny'
 import Event from "@/database/event.model";
 
-// Configure caching for GET requests
-export const revalidate = 1800; // Revalidate every 30 minutes
-export const fetchCache = 'default-cache';
 
 
 // POST Event and UPLOAD image

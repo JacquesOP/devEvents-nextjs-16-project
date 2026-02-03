@@ -4,7 +4,6 @@ import Event from "@/database/event.model";
 
 // Configure route segment caching
 export const revalidate = 3600; // Revalidate every 1 hour (ISR)
-export const dynamic = 'force-static'; // Enable static generation where possible
 export const fetchCache = 'default-cache';
 
 // Route params type for Next.js 16 dynamic routes

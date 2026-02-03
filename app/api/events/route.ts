@@ -5,7 +5,6 @@ import Event from "@/database/event.model";
 
 // Configure caching for GET requests
 export const revalidate = 1800; // Revalidate every 30 minutes
-export const dynamic = 'force-dynamic'; // POST needs to be dynamic
 export const fetchCache = 'default-cache';
 
 

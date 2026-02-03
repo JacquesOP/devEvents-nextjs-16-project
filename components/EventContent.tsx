@@ -69,7 +69,7 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
       return notFound();
    }
    
-   const { event: { description, image, overview, date, time, location, mode, agenda, audience, tags, organizer }} = data;
+   const { event: { _id, description, image, overview, date, time, location, mode, agenda, audience, tags, organizer }} = data;
 
    if (!description) {
       return notFound();
@@ -136,7 +136,7 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
                      )
                   }
 
-                  <BookEvent />
+                  <BookEvent eventId={_id} slug={slug} />
                </div>
              </aside>
 
@@ -147,9 +147,9 @@ export async function EventContent({ params }: { params: Promise<{ slug: string 
             <h2>Similar Events</h2>
             <div className="events">
                {
-                  similarEvents.length > 0 && similarEvents.map((similarEvent: IEvent, index) => (
+                  similarEvents.length > 0 && similarEvents.map((similarEvent: IEvent) => (
                      <EventCard
-                        key={similarEvent.slug || index}
+                        key={similarEvent.slug}
                         title={similarEvent.title}
                         image={similarEvent.image}
                         slug={similarEvent.slug}

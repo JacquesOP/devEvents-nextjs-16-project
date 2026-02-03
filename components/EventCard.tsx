@@ -24,9 +24,7 @@ export default function EventCard({ title, image, slug, location, date, time }: 
     });
   };
 
-  const imageUrl = image.startsWith('http')
-    ? image
-    : `${process.env.NEXT_PUBLIC_BASE_URL}/${image}`;
+  const imageUrl = image;
 
   const cardContent = (
     <>
